@@ -35,6 +35,18 @@
         <label for="due_date">Due Date</label>
         <input id="due_date" name="due_date" type="date" value="{% if task.due_date %}{{ task.due_date|date:'Y-m-d' }}{% endif %}">
 
+        <label>Tags</label>
+        <div style="margin-bottom:12px;">
+            {% for tag in tags %}
+                <div style="display:flex; align-items:center; gap:8px; margin:4px 0;">
+                    <input id="tag_{{ tag.id }}" name="tags" type="checkbox" value="{{ tag.id }}" style="width:auto; margin:0;" {% if tag in task.tags.all %}checked{% endif %}>
+                    <label for="tag_{{ tag.id }}" style="margin:0; font-weight:normal;">{{ tag.name }}</label>
+                </div>
+            {% empty %}
+                <p style="color:#6b7280; font-size:14px;">No tags available. <a href="{% url 'categories' %}">Create tags</a></p>
+            {% endfor %}
+        </div>
+
         <div style="display:flex; align-items:center; gap:8px; margin:16px 0;">
             <input id="is_completed" name="is_completed" type="checkbox" style="width:auto; margin:0;" {% if task.is_completed %}checked{% endif %}>
             <label for="is_completed" style="margin:0;">Mark as completed</label>

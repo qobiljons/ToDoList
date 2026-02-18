@@ -7,62 +7,66 @@
     <h1>Task Analysis</h1>
 </div>
 
-<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:24px;">
-    <div class="card" style="text-align:center;">
-        <h3 style="color:#6b7280; margin:0 0 8px 0;">Total Tasks</h3>
-        <p style="font-size:36px; font-weight:bold; margin:0;">{{ total_tasks }}</p>
+<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:16px; margin-bottom:24px;">
+    <div class="card" style="text-align:center; border-top:3px solid #6b7280;">
+        <h3 style="color:#6b7280; margin:0 0 8px 0; font-size:13px;">Total</h3>
+        <p style="font-size:32px; font-weight:bold; margin:0;">{{ total_tasks }}</p>
     </div>
-    <div class="card" style="text-align:center;">
-        <h3 style="color:#059669; margin:0 0 8px 0;">Completed</h3>
-        <p style="font-size:36px; font-weight:bold; margin:0; color:#059669;">{{ completed_tasks }}</p>
+    <div class="card" style="text-align:center; border-top:3px solid #059669;">
+        <h3 style="color:#059669; margin:0 0 8px 0; font-size:13px;">Completed</h3>
+        <p style="font-size:32px; font-weight:bold; margin:0; color:#059669;">{{ completed_tasks }}</p>
     </div>
-    <div class="card" style="text-align:center;">
-        <h3 style="color:#d97706; margin:0 0 8px 0;">Pending</h3>
-        <p style="font-size:36px; font-weight:bold; margin:0; color:#d97706;">{{ pending_tasks }}</p>
+    <div class="card" style="text-align:center; border-top:3px solid #d97706;">
+        <h3 style="color:#d97706; margin:0 0 8px 0; font-size:13px;">Pending</h3>
+        <p style="font-size:32px; font-weight:bold; margin:0; color:#d97706;">{{ pending_tasks }}</p>
     </div>
-    <div class="card" style="text-align:center;">
-        <h3 style="color:#dc2626; margin:0 0 8px 0;">Overdue</h3>
-        <p style="font-size:36px; font-weight:bold; margin:0; color:#dc2626;">{{ overdue_tasks }}</p>
+    <div class="card" style="text-align:center; border-top:3px solid #dc2626;">
+        <h3 style="color:#dc2626; margin:0 0 8px 0; font-size:13px;">Overdue</h3>
+        <p style="font-size:32px; font-weight:bold; margin:0; color:#dc2626;">{{ overdue_tasks }}</p>
+    </div>
+    <div class="card" style="text-align:center; border-top:3px solid #2563eb;">
+        <h3 style="color:#2563eb; margin:0 0 8px 0; font-size:13px;">Due This Week</h3>
+        <p style="font-size:32px; font-weight:bold; margin:0; color:#2563eb;">{{ upcoming_tasks }}</p>
     </div>
 </div>
 
 <div class="card">
     <h2>Completion Rate</h2>
     <div style="background:#e5e7eb; border-radius:8px; height:24px; overflow:hidden; margin:16px 0;">
-        <div style="background:#059669; height:100%; width:{{ completion_rate }}%;"></div>
+        <div style="background:linear-gradient(90deg, #059669, #10b981); height:100%; width:{{ completion_rate }}%; transition:width 0.3s;"></div>
     </div>
-    <p>{{ completion_rate }}% complete</p>
+    <p style="font-weight:600;">{{ completion_rate }}% complete</p>
 </div>
 
-<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px;">
+<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:16px;">
     <div class="card">
-        <h2>By Priority</h2>
+        <h2 style="margin-top:0; font-size:18px;">By Priority</h2>
         <ul style="list-style:none; padding:0;">
-            <li style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #e5e7eb;">
-                <span>🔴 Urgent</span>
+            <li style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #e5e7eb;">
+                <span><span style="color:#dc2626;">●</span> Urgent</span>
                 <strong>{{ by_priority.urgent }}</strong>
             </li>
-            <li style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #e5e7eb;">
-                <span>🟠 High</span>
+            <li style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #e5e7eb;">
+                <span><span style="color:#d97706;">●</span> High</span>
                 <strong>{{ by_priority.high }}</strong>
             </li>
-            <li style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #e5e7eb;">
-                <span>🟡 Medium</span>
+            <li style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #e5e7eb;">
+                <span><span style="color:#f59e0b;">●</span> Medium</span>
                 <strong>{{ by_priority.medium }}</strong>
             </li>
-            <li style="display:flex; justify-content:space-between; padding:8px 0;">
-                <span>🟢 Low</span>
+            <li style="display:flex; justify-content:space-between; padding:10px 0;">
+                <span><span style="color:#059669;">●</span> Low</span>
                 <strong>{{ by_priority.low }}</strong>
             </li>
         </ul>
     </div>
 
     <div class="card">
-        <h2>By Category</h2>
+        <h2 style="margin-top:0; font-size:18px;">By Category</h2>
         {% if by_category %}
             <ul style="list-style:none; padding:0;">
                 {% for cat, count in by_category.items %}
-                    <li style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #e5e7eb;">
+                    <li style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #e5e7eb;">
                         <span>{{ cat }}</span>
                         <strong>{{ count }}</strong>
                     </li>
@@ -70,6 +74,22 @@
             </ul>
         {% else %}
             <p style="color:#6b7280;">No categories yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2 style="margin-top:0; font-size:18px;">By Tag</h2>
+        {% if by_tag %}
+            <ul style="list-style:none; padding:0;">
+                {% for tag, count in by_tag.items %}
+                    <li style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #e5e7eb;">
+                        <span>{{ tag }}</span>
+                        <strong>{{ count }}</strong>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color:#6b7280;">No tags yet.</p>
         {% endif %}
     </div>
 </div>
