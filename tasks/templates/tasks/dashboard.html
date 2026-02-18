@@ -3,26 +3,69 @@
 {% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="card">
-    <h1>Dashboard</h1>
+<div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+    <h1>Welcome, {{ user.username }}</h1>
+    <a class="btn btn-primary" href="{% url 'create_task' %}">+ New Task</a>
 </div>
 
-<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:16px;">
-    <div class="card" style="text-align:center;">
-        <h3 style="color:#6b7280; margin:0 0 8px 0; font-size:14px;">Total</h3>
-        <p style="font-size:28px; font-weight:bold; margin:0;">{{ total_tasks }}</p>
+<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:16px;">
+    <div class="card" style="text-align:center; border-top:3px solid #6b7280;">
+        <h3 style="color:#6b7280; margin:0 0 8px 0; font-size:13px;">Total</h3>
+        <p style="font-size:32px; font-weight:bold; margin:0;">{{ total_tasks }}</p>
     </div>
-    <div class="card" style="text-align:center;">
-        <h3 style="color:#059669; margin:0 0 8px 0; font-size:14px;">Done</h3>
-        <p style="font-size:28px; font-weight:bold; margin:0; color:#059669;">{{ completed_tasks }}</p>
+    <div class="card" style="text-align:center; border-top:3px solid #059669;">
+        <h3 style="color:#059669; margin:0 0 8px 0; font-size:13px;">Done</h3>
+        <p style="font-size:32px; font-weight:bold; margin:0; color:#059669;">{{ completed_tasks }}</p>
     </div>
-    <div class="card" style="text-align:center;">
-        <h3 style="color:#d97706; margin:0 0 8px 0; font-size:14px;">Pending</h3>
-        <p style="font-size:28px; font-weight:bold; margin:0; color:#d97706;">{{ pending_tasks }}</p>
+    <div class="card" style="text-align:center; border-top:3px solid #d97706;">
+        <h3 style="color:#d97706; margin:0 0 8px 0; font-size:13px;">Pending</h3>
+        <p style="font-size:32px; font-weight:bold; margin:0; color:#d97706;">{{ pending_tasks }}</p>
     </div>
-    <div class="card" style="text-align:center;">
-        <h3 style="color:#2563eb; margin:0 0 8px 0; font-size:14px;">Progress</h3>
-        <p style="font-size:28px; font-weight:bold; margin:0; color:#2563eb;">{{ completion_rate }}%</p>
+    <div class="card" style="text-align:center; border-top:3px solid #2563eb;">
+        <h3 style="color:#2563eb; margin:0 0 8px 0; font-size:13px;">Progress</h3>
+        <p style="font-size:32px; font-weight:bold; margin:0; color:#2563eb;">{{ completion_rate }}%</p>
+    </div>
+</div>
+
+<div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px; margin-top:16px;">
+    <div class="card">
+        <h2 style="margin-top:0; font-size:18px;">Urgent Tasks</h2>
+        {% if urgent_tasks %}
+            <ul style="list-style:none; padding:0; margin:0;">
+                {% for task in urgent_tasks %}
+                    <li style="padding:10px 0; border-bottom:1px solid #e5e7eb; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <a href="{% url 'edit_task' task.id %}" style="text-decoration:none; color:#1f2937; font-weight:500;">{{ task.title }}</a>
+                            {% if task.due_date %}<span style="color:#dc2626; font-size:12px;">Due: {{ task.due_date }}</span>{% endif %}
+                        </div>
+                        {% if task.priority >= 3 %}<span class="badge badge-high">Urgent</span>{% else %}<span class="badge badge-medium">High</span>{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color:#6b7280;">No urgent tasks</p>
+        {% endif %}
+    </div>
+
+    <div class="card">
+        <h2 style="margin-top:0; font-size:18px;">Recent Tasks</h2>
+        {% if recent_tasks %}
+            <ul style="list-style:none; padding:0; margin:0;">
+                {% for task in recent_tasks %}
+                    <li style="padding:10px 0; border-bottom:1px solid #e5e7eb; display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <a href="{% url 'edit_task' task.id %}" style="text-decoration:none; color:#1f2937; font-weight:500;">{{ task.title }}</a>
+                            <div style="font-size:12px; color:#6b7280;">
+                                {% for tag in task.tags.all %}<span class="badge badge-default">{{ tag.name }}</span> {% endfor %}
+                            </div>
+                        </div>
+                        {% if task.is_completed %}<span class="badge badge-low">Done</span>{% else %}<span class="badge badge-default">Pending</span>{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p style="color:#6b7280;">No tasks yet. <a href="{% url 'create_task' %}">Create one</a></p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
