@@ -33,6 +33,18 @@
         <label for="due_date">Due Date</label>
         <input id="due_date" name="due_date" type="date">
 
+        <label>Tags</label>
+        <div style="margin-bottom:12px;">
+            {% for tag in tags %}
+                <div style="display:flex; align-items:center; gap:8px; margin:4px 0;">
+                    <input id="tag_{{ tag.id }}" name="tags" type="checkbox" value="{{ tag.id }}" style="width:auto; margin:0;">
+                    <label for="tag_{{ tag.id }}" style="margin:0; font-weight:normal;">{{ tag.name }}</label>
+                </div>
+            {% empty %}
+                <p style="color:#6b7280; font-size:14px;">No tags available. <a href="{% url 'categories' %}">Create tags</a></p>
+            {% endfor %}
+        </div>
+
         <div style="margin-top:16px;">
             <button class="btn btn-primary" type="submit">Save Task</button>
             <a class="btn btn-secondary" href="{% url 'dashboard' %}">Cancel</a>
