@@ -1,12 +1,9 @@
-from django.shortcuts import render
-
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from .models import Task, Category, SubTask, Tag
-from django.http import HttpResponseRedirect
 
 
 # Home / Dashboard

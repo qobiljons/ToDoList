@@ -39,3 +39,24 @@ class MarkTaskDoneTests(TestCase):
         response = self.client.get(reverse("mark_task_done", args=[task.id]))
 
         self.assertEqual(response.status_code, 405)
+
+
+class TaskCreationTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username="alice", password="testpass123")
+
+    def test_create_task_via_post(self):
+        self.client.login(username="alice", password="testpass123")
+        response = self.client.post(
+            reverse("create_task"),
+            {"title": "New task", "description": "Test description", "priority": 0},
+        )
+        self.assertRedirects(response, reverse("dashboard"))
+        self.assertTrue(Task.objects.filter(title="New task", user=self.user).exists())
+
+    def test_create_task_requires_login(self):
+        response = self.client.post(
+            reverse("create_task"),
+            {"title": "Sneaky task"},
+        )
+        self.assertRedirects(response, f"{reverse('login')}?next={reverse('create_task')}")

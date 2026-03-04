@@ -1,10 +1,7 @@
 services:
 
   web:
-    build:
-      context: .
-      target: production
-    image: todolist-prod:latest
+    image: itsqobiljon/todolist:latest
     container_name: django_app
     restart: unless-stopped
     env_file:
